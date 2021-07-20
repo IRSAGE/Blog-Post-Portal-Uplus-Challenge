@@ -10,6 +10,9 @@ import PostsScreen from "./screens/PostsScreen";
 import CommentsScreen from "./screens/CommentsScreen";
 import UserDetailScreen from "./screens/UserDetailScreen";
 import CreateuserScreen from "./screens/CreateuserScreen";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+
+import HeaderButton from './components/HeaderButton'
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -18,7 +21,21 @@ export default function App() {
     return (
       <PaperProvider>
         <UsersStack.Navigator>
-          <UsersStack.Screen name="Users" component={UsersScreen} />
+          <UsersStack.Screen
+            name="Users"
+            component={UsersScreen}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                  <Item
+                    title="Add User"
+                    iconName="person-add"
+                    onPress={() => navigation.navigate("CreateUsers")}
+                  />
+                </HeaderButtons>
+              ),
+            })}
+          />
           <UsersStack.Screen name="UserDetail" component={UserDetailScreen} />
           <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
         </UsersStack.Navigator>
@@ -31,7 +48,21 @@ export default function App() {
   function PostsStackScreen() {
     return (
       <PostsStack.Navigator>
-        <PostsStack.Screen name="Posts" component={PostsScreen} />
+        <PostsStack.Screen
+          name="Posts"
+          component={PostsScreen}
+          options={{
+            headerRight: () => (
+              <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item
+                  title="Add Post"
+                  iconName="add-circle"
+                  onPress={() => alert("post button clicked!")}
+                />
+              </HeaderButtons>
+            ),
+          }}
+        />
         {/* <PostsStack.Screen name="Details" component={DetailsScreen} /> */}
       </PostsStack.Navigator>
     );
@@ -41,7 +72,21 @@ export default function App() {
   function CommentStackScreen() {
     return (
       <CommnetsStack.Navigator>
-        <CommnetsStack.Screen name="Comments" component={CommentsScreen} />
+        <CommnetsStack.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={{
+            headerRight: () => (
+              <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item
+                  title="Add Comments"
+                  iconName="add-circle"
+                  onPress={() => alert("comment button clicked!")}
+                />
+              </HeaderButtons>
+            ),
+          }}
+        />
         {/* <CommnetsStack.Screen name="Details" component={DetailsScreen} /> */}
       </CommnetsStack.Navigator>
     );

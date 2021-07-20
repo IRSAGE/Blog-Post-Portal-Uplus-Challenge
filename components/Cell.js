@@ -7,7 +7,7 @@ const Cell = (props) => {
       <DataTable.Cell style={{ flex: 1 }}>{props.first}</DataTable.Cell>
       <DataTable.Cell style={{ flex: 3 }}>{props.second}</DataTable.Cell>
       <DataTable.Cell style={{ flex: 2 }}>{props.third}</DataTable.Cell>
-    </DataTable.Row>
+      </DataTable.Row>
   );
 };
 

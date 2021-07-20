@@ -5,13 +5,13 @@ import { View, FlatList } from "react-native";
 import Cell from "../components/Cell";
 
 const CommentsScreen = () => {
-    const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]);
 
-    useEffect(() => {
-      const comments = axios.get("/comments").then((response) => {
-        setComments(response.data);
-      });
-    }, []);
+  useEffect(() => {
+    const comments = axios.get("/comments").then((response) => {
+      setComments(response.data);
+    });
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
