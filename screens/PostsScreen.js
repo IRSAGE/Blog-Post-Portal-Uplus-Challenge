@@ -1,12 +1,33 @@
-import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import React, { useState, useEffect } from "react";
+import axios from "../axios";
+
+import { View, Text, FlatList } from "react-native";
+import Cell from "../components/Cell";
 
 const PostsScreen = () => {
-    return (
-      <View>
-        <Text>This Is A Posts Screen</Text>
-      </View>
-    );
-}
+  const [Posts, setPosts] = useState([]);
 
-export default PostsScreen
+  useEffect(() => {
+    const posts = axios.get("/posts").then((response) => {
+      setPosts(response.data);
+    });
+  }, []);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Cell first="Id" second="Title" third="Body" />
+      <FlatList
+        data={Posts}
+        renderItem={(post) => (
+          <Cell
+            first={post.item.id}
+            second={post.item.title}
+            third={post.item.body}
+          />
+        )}
+      />
+    </View>
+  );
+};
+
+export default PostsScreen;
