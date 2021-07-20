@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
 
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import Cell from "../components/Cell";
 
 const PostsScreen = () => {
