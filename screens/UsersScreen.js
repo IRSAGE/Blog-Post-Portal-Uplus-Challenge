@@ -1,13 +1,32 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { Title } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { View, FlatList } from "react-native";
+import axios from "../axios";
+import Cell from "../components/Cell";
 
 const UsersScreen = () => {
-    return (
-      <View>
-        <Title>All Users</Title>
-      </View>
-    );
-}
+  const [users, setUsers] = useState([]);
 
-export default UsersScreen
+  useEffect(() => {
+    const Users = axios.get("/users").then((response) => {
+      setUsers(response.data);
+    });
+  }, []);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Cell first="UserId" second="Name" third="Phone Number" />
+      <FlatList
+        data={users}
+        renderItem={(users) => (
+          <Cell
+            first={users.item.id}
+            second={users.item.name}
+            third={users.item.phone}
+          />
+        )}
+      />
+    </View>
+  );
+};
+
+export default UsersScreen;
