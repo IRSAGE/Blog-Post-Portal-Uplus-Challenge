@@ -14,7 +14,7 @@ const UsersScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Cell first="UserId" second="Name" third="Phone Number" />
+      <Cell first="Id" second="Name" third="Phone Number" />
       <FlatList
         data={users}
         renderItem={(users) => (
