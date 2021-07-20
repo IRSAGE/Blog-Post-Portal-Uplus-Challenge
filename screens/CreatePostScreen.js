@@ -7,31 +7,30 @@ import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 
 const CreatePostScreen = () => {
-    const [userId, setUserId] = useState("");
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
+  const [userId, setUserId] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-const handleInputsHandler = () => {
-  if (userId != "" && title != "" && body != "") {
-    // // axios
-    // //   .post("/users", {
-    // //     name: name,
-    // //     username: userName,
-    // //  
-    //   })
-    //   .then(function (response) {
-    //     alert("User Created Successfull");
-    //     console.log(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     alert("Sommething is Wrong");
-    //     console.log(error);
-    //   });
-    console.log(userId, title, body);
-  } else {
-    alert("There Are Some Missing Value");
-  }
-};
+  const handleInputsHandler = () => {
+    if (userId != "" && title != "" && body != "") {
+      axios
+        .post("/posts", {
+          title: title,
+          body: body,
+        })
+        .then(function (response) {
+          alert("Post Created Successfull");
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          alert("Sommething is Wrong");
+          console.log(error);
+        });
+      console.log(userId, title, body);
+    } else {
+      alert("There Are Some Missing Value");
+    }
+  };
 
   return (
     <View style={styles.screen}>
