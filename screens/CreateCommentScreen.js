@@ -6,26 +6,30 @@ import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 
-const CreatePostScreen = () => {
-  const [userId, setUserId] = useState("");
-  const [title, setTitle] = useState("");
+const CreateCommentScreen = () => {
+  const [postId, setPostId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
 
   const handleInputsHandler = () => {
-    if (userId != "" && title != "" && body != "") {
-      axios
-        .post("/posts", {
-          title: title,
-          body: body,
-        })
-        .then(function (response) {
-          alert("Post Created Successfull");
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          alert("Sommething is Wrong");
-          console.log(error);
-        });
+    if (postId != "" && name != "" && email != "" && body != "") {
+       axios
+         .post("/comments", {
+           postId: postId,
+           name: name,
+           email: email,
+           body: body,
+         })
+         .then(function (response) {
+           alert("Comment Created Successfull");
+           console.log(response.data);
+         })
+         .catch(function (error) {
+           alert("Sommething is Wrong");
+           console.log(error);
+         });
+      console.log(postId, name, email, body);
     } else {
       alert("There Are Some Missing Value");
     }
@@ -36,22 +40,28 @@ const CreatePostScreen = () => {
       <ScrollView>
         <View style={styles.header}>
           <Avatar.Image size={74} source={require("../assets/Avatar.png")} />
-          <Text style={styles.headerText}>Create A New Post</Text>
+          <Text style={styles.headerText}>Create A New Comment</Text>
         </View>
         <View style={styles.TextContainer}>
           <TextInputComp
-            label="UserId"
+            label="PostId"
             maxLength={2}
-            value={userId}
+            value={postId}
             keyboardType="number-pad"
-            onChangeText={(text) => setUserId(text)}
-            placeholder="Enter UserId"
+            onChangeText={(text) => setPostId(text)}
+            placeholder="Enter PostId"
           />
           <TextInputComp
-            label="Title"
-            placeholder="Enter Post's Title"
-            value={title}
-            onChangeText={(text) => setTitle(text)}
+            label="Name"
+            placeholder="Enter Post's Name"
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+          <TextInputComp
+            label="Email"
+            placeholder="Enter Post's Name"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
           <TextInputComp
             label="Body"
@@ -69,7 +79,7 @@ const CreatePostScreen = () => {
             style={styles.btn}
             onPress={handleInputsHandler}
           >
-            Create Post
+            Create Comment
           </Button>
         </View>
       </ScrollView>
@@ -104,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreatePostScreen;
+export default CreateCommentScreen;

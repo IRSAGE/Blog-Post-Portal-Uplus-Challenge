@@ -27,31 +27,29 @@ const CreateuserScreen = () => {
       lat != "" &&
       lng != ""
     ) {
-
-        axios
-          .post("/users", {
-            name: name,
-            username: userName,
-            address: {
-              street: street,
-              suite: suite,
-              city: city,
-              zipcode: zipcode,
-              geo: {
-                lat: lat,
-                lng: lng,
-              },
+      axios
+        .post("/users", {
+          name: name,
+          username: userName,
+          address: {
+            street: street,
+            suite: suite,
+            city: city,
+            zipcode: zipcode,
+            geo: {
+              lat: lat,
+              lng: lng,
             },
-          })
-            .then(function (response) {
-              alert("User Created Successfull");
-            console.log(response.data);
-          })
-            .catch(function (error) {
-              alert("Sommething is Wrong");
-            console.log(error);
-          });
-    //   console.log(name,userName,street,suite,city,zipcode,lat,lng);
+          },
+        })
+        .then(function (response) {
+          alert("User Created Successfull");
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          alert("Sommething is Wrong");
+          console.log(error);
+        });
     } else {
       alert("There Are Some Missing Value");
     }

@@ -14,6 +14,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from './components/HeaderButton'
 import CreatePostScreen from "./screens/CreatePostScreen";
+import CreateCommentScreen from "./screens/CreateCommentScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -76,19 +77,22 @@ export default function App() {
         <CommnetsStack.Screen
           name="Comments"
           component={CommentsScreen}
-          options={{
+          options={({ navigation }) => ({
             headerRight: () => (
               <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                   title="Add Comments"
                   iconName="add-circle"
-                  onPress={() => alert("comment button clicked!")}
+                  onPress={() => navigation.navigate("CreateComment")}
                 />
               </HeaderButtons>
             ),
-          }}
+          })}
         />
-        {/* <CommnetsStack.Screen name="Details" component={DetailsScreen} /> */}
+        <CommnetsStack.Screen
+          name="CreateComment"
+          component={CreateCommentScreen}
+        />
       </CommnetsStack.Navigator>
     );
   }
