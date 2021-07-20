@@ -7,6 +7,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import UsersScreen from "./screens/UsersScreen";
 import PostsScreen from "./screens/PostsScreen";
 import CommentsScreen from "./screens/CommentsScreen";
+import UserDetailScreen from "./screens/UserDetailScreen";
+import CreateuserScreen from "./screens/CreateuserScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -15,6 +17,8 @@ export default function App() {
     return (
       <UsersStack.Navigator>
         <UsersStack.Screen name="Users" component={UsersScreen} />
+        <UsersStack.Screen name="UserDetail" component={UserDetailScreen} />
+        <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
       </UsersStack.Navigator>
     );
   }
