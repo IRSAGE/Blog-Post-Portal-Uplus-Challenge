@@ -7,7 +7,7 @@ const TextInputComp = (props) => {
     return (
       <TextInput
         {...props}
-        style={styles.Text}
+        style={{ ...styles.Text, ...props.style }}
         mode="outlined"
         label={props.label}
         placeholder={props.placeholder}

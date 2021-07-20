@@ -13,6 +13,7 @@ import CreateuserScreen from "./screens/CreateuserScreen";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from './components/HeaderButton'
+import CreatePostScreen from "./screens/CreatePostScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -51,19 +52,19 @@ export default function App() {
         <PostsStack.Screen
           name="Posts"
           component={PostsScreen}
-          options={{
+          options={({ navigation }) => ({
             headerRight: () => (
               <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                   title="Add Post"
                   iconName="add-circle"
-                  onPress={() => alert("post button clicked!")}
+                  onPress={() => navigation.navigate("CreatePost")}
                 />
               </HeaderButtons>
             ),
-          }}
+          })}
         />
-        {/* <PostsStack.Screen name="Details" component={DetailsScreen} /> */}
+        <PostsStack.Screen name="CreatePost" component={CreatePostScreen} />
       </PostsStack.Navigator>
     );
   }

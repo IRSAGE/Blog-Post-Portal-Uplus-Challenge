@@ -62,7 +62,7 @@ const CreateuserScreen = () => {
       <ScrollView>
         <View style={styles.header}>
           <Avatar.Image size={64} source={require("../assets/Avatar.png")} />
-          <Text style={styles.headerText}>Create New User</Text>
+          <Text style={styles.headerText}>Create A New User</Text>
         </View>
         <View style={styles.TextContainer}>
           <TextInputComp
