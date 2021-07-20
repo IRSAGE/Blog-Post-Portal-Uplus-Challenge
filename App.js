@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Provider as PaperProvider } from "react-native-paper";
 
 import UsersScreen from "./screens/UsersScreen";
 import PostsScreen from "./screens/PostsScreen";
@@ -15,11 +16,13 @@ export default function App() {
 
   function UsersStackScreen() {
     return (
-      <UsersStack.Navigator>
-        <UsersStack.Screen name="Users" component={UsersScreen} />
-        <UsersStack.Screen name="UserDetail" component={UserDetailScreen} />
-        <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
-      </UsersStack.Navigator>
+      <PaperProvider>
+        <UsersStack.Navigator>
+          <UsersStack.Screen name="Users" component={UsersScreen} />
+          <UsersStack.Screen name="UserDetail" component={UserDetailScreen} />
+          <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
+        </UsersStack.Navigator>
+      </PaperProvider>
     );
   }
 
