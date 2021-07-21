@@ -5,22 +5,27 @@ import axios from "../axios";
 import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
+import LoadingScreen from "./LoadingScreen";
 
-const CreatePostScreen = () => {
+const CreatePostScreen = ({ navigation }) => {
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleInputsHandler = () => {
+  const handleInputsHandler = async () => {
     if (userId != "" && title != "" && body != "") {
-      axios
+      setLoading(true);
+      await axios
         .post("/posts", {
           title: title,
           body: body,
         })
         .then(function (response) {
+          setLoading(false);
           alert("Post Created Successfull");
-          console.log(response.data);
+          cleanInputs();
+          navigation.goBack();
         })
         .catch(function (error) {
           alert("Sommething is Wrong");
@@ -30,6 +35,15 @@ const CreatePostScreen = () => {
       alert("There Are Some Missing Value");
     }
   };
+
+  const cleanInputs = () => {
+    setUserId("");
+    setTitle("");
+    setBody("");
+  };
+
+  if (loading)
+    return <LoadingScreen text={"Creating New Post ... Please wait"} />;
 
   return (
     <View style={styles.screen}>
@@ -41,10 +55,10 @@ const CreatePostScreen = () => {
         <View style={styles.TextContainer}>
           <TextInputComp
             label="UserId"
-            maxLength={2}
+            maxLength={3}
             value={userId}
             keyboardType="number-pad"
-            onChangeText={(text) => setUserId(text)}
+            onChangeText={(text) => setUserId(text.replace(/[^0-9]/g, ""))}
             placeholder="Enter UserId"
           />
           <TextInputComp

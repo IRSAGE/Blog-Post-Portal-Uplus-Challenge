@@ -5,36 +5,50 @@ import axios from "../axios";
 import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
+import LoadingScreen from "./LoadingScreen";
 
-const CreateCommentScreen = () => {
+const CreateCommentScreen = ({navigation}) => {
   const [postId, setPostId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleInputsHandler = () => {
+  const handleInputsHandler = async () => {
     if (postId != "" && name != "" && email != "" && body != "") {
-       axios
-         .post("/comments", {
-           postId: postId,
-           name: name,
-           email: email,
-           body: body,
-         })
-         .then(function (response) {
-           alert("Comment Created Successfull");
-           console.log(response.data);
-         })
-         .catch(function (error) {
-           alert("Sommething is Wrong");
-           console.log(error);
-         });
+      setLoading(true);
+      await axios
+        .post("/comments", {
+          postId: postId,
+          name: name,
+          email: email,
+          body: body,
+        })
+        .then(function (response) {
+          setLoading(false);
+          alert("Comment Created Successfull");
+          cleanInputs()
+          navigation.goBack();
+        })
+        .catch(function (error) {
+          alert("Sommething is Wrong");
+          console.log(error);
+        });
       console.log(postId, name, email, body);
     } else {
       alert("There Are Some Missing Value");
     }
   };
 
+  const cleanInputs = () => {
+    setPostId("");
+    setBody("");
+    setEmail("");
+    setName("");
+  };
+
+  if (loading)
+    return <LoadingScreen text={"Creating New Comment ... Please wait"} />;
   return (
     <View style={styles.screen}>
       <ScrollView>
@@ -48,7 +62,7 @@ const CreateCommentScreen = () => {
             maxLength={2}
             value={postId}
             keyboardType="number-pad"
-            onChangeText={(text) => setPostId(text)}
+            onChangeText={(text) => setPostId(text.replace(/[^0-9]/g, ""))}
             placeholder="Enter PostId"
           />
           <TextInputComp

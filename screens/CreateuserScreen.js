@@ -5,8 +5,9 @@ import axios from "../axios";
 import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
+import LoadingScreen from "./LoadingScreen";
 
-const CreateuserScreen = () => {
+const CreateuserScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [street, setStreet] = useState("");
@@ -15,8 +16,9 @@ const CreateuserScreen = () => {
   const [zipcode, setZipCode] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleInputsHandler = () => {
+  const handleInputsHandler = async () => {
     if (
       name != "" &&
       userName != "" &&
@@ -27,7 +29,8 @@ const CreateuserScreen = () => {
       lat != "" &&
       lng != ""
     ) {
-      axios
+      setLoading(true);
+      await axios
         .post("/users", {
           name: name,
           username: userName,
@@ -43,8 +46,10 @@ const CreateuserScreen = () => {
           },
         })
         .then(function (response) {
+          setLoading(false);
           alert("User Created Successfull");
-          console.log(response.data);
+          cleanInputs();
+          navigation.goBack();
         })
         .catch(function (error) {
           alert("Sommething is Wrong");
@@ -54,6 +59,20 @@ const CreateuserScreen = () => {
       alert("There Are Some Missing Value");
     }
   };
+
+  const cleanInputs = () => {
+    setName("");
+    setUserName("");
+    setStreet("");
+    setSuit("");
+    setCity("");
+    setZipCode("");
+    setLat("");
+    setLng("");
+  };
+
+  if (loading)
+    return <LoadingScreen text={"Creating New User ... Please wait"} />;
 
   return (
     <View style={styles.screen}>
@@ -100,7 +119,7 @@ const CreateuserScreen = () => {
             label="ZipCode"
             placeholder="Enter User's ZipCode"
             value={zipcode}
-            onChangeText={(text) => setZipCode(text)}
+            onChangeText={(text) => setZipCode(text.replace(/[^0-9]/g, ""))}
           />
           <TextInputComp
             autoCapitalize="none"
@@ -109,7 +128,7 @@ const CreateuserScreen = () => {
             label="Latitude"
             placeholder="Enter User's Latitude"
             value={lat}
-            onChangeText={(text) => setLat(text)}
+            onChangeText={(text) => setLat(text.replace(/[^0-9]/g, ""))}
           />
           <TextInputComp
             autoCapitalize="none"
@@ -118,7 +137,7 @@ const CreateuserScreen = () => {
             label="Longititude"
             placeholder="Enter User's Longititude"
             value={lng}
-            onChangeText={(text) => setLng(text)}
+            onChangeText={(text) => setLng(text.replace(/[^0-9]/g, ""))}
           />
           <Button
             mode="contained"
