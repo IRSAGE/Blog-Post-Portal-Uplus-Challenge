@@ -18,10 +18,9 @@ const UserDetailScreen = ({ route, navigation }) => {
       .then((response) => {
         setUser(response.data);
         setLoading(false);
-        console.log(response.data);
       })
       .catch(function (error) {
-        alert("Something went Wrong");
+        Alert.alert("Something went Wrong", "Please Check Your Internet");
         console.log(error);
       });
   }, []);
@@ -64,7 +63,7 @@ const UserDetailScreen = ({ route, navigation }) => {
          navigation.navigate("Users");
        })
        .catch(function (error) {
-         alert("Something went Wrong", "Please Check Your Internet");
+         Alert.alert("Something went Wrong", "Please Check Your Internet");
          console.log(error);
 
        });
