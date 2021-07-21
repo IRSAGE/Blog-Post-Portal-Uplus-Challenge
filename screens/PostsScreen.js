@@ -4,14 +4,25 @@ import axios from "../axios";
 import { View, FlatList } from "react-native";
 import Cell from "../components/Cell";
 import CellData from "../components/CellData";
+import LoadingScreen from "./LoadingScreen";
 
-const PostsScreen = ({navigation}) => {
+const PostsScreen = ({ navigation }) => {
+  
   const [Posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const posts = axios.get("/posts").then((response) => {
-      setPosts(response.data);
-    });
+    setLoading(true);
+    const posts = axios
+      .get("/posts")
+      .then((response) => {
+        setPosts(response.data);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        alert("Something went Wrong");
+        console.log(error);
+      });
   }, []);
 
   const itemClickedHandler = (itemId) => {
@@ -19,6 +30,9 @@ const PostsScreen = ({navigation}) => {
       postId: itemId,
     });
   };
+
+ if (loading || Posts.length == 0)
+   return <LoadingScreen text={"Retriving Posts.... Please wait"} />;
 
   return (
     <View style={{ flex: 1}}>
