@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Alert } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import axios from "../axios";
 import LoadingScreen from "./LoadingScreen";
@@ -17,7 +17,6 @@ const PostDetailsScreen = ({ route, navigation }) => {
       .then((response) => {
           setPost(response.data);
           setLoading(false);
-        // console.log(response.data)
       })
       .catch(function (error) {
         alert("Something went Wrong");
@@ -25,6 +24,48 @@ const PostDetailsScreen = ({ route, navigation }) => {
       });
   }, []);
 
+
+  const itemDeleteHandler = () => {
+    if (postId) {
+      Alert.alert(
+        "Post Deleting",
+        ` Are You Sure You Want To Delete Post with Id ${postId}`,
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => console.log("Cancel button clicked"),
+          },
+          {
+            text: "Delete",
+            onPress: itemDeleteting,
+            style: "destructive",
+          },
+        ],
+        {
+          cancelable: false,
+        }
+      );
+    } else {
+    }
+  };
+
+  const itemDeleteting = () => {
+     setLoading(true);
+     axios
+       .delete(`/posts/${JSON.stringify(postId)}`)
+       .then((response) => {
+         setLoading(false);
+         Alert.alert(
+        "Post Deleting",
+           ` Post With ${postId} Deleted SuccessFully`)
+         navigation.navigate("Posts");
+       })
+       .catch(function (error) {
+         alert("Something went Wrong", "Please Check Your Internet");
+         console.log(error);
+       });
+  }
     
     if (loading)
       return <LoadingScreen text={"Retriving Post Information ... Please wait"} />;
@@ -46,7 +87,7 @@ const PostDetailsScreen = ({ route, navigation }) => {
               color={"#f08e25"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
-              onPress={() => {}}
+              onPress={itemDeleteHandler}
             >
               Delete Post
             </Button>
