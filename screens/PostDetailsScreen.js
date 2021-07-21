@@ -17,7 +17,7 @@ const PostDetailsScreen = ({ route, navigation }) => {
       .then((response) => {
           setPost(response.data);
           setLoading(false);
-        console.log(response.data);
+        // console.log(response.data)
       })
       .catch(function (error) {
         alert("Something went Wrong");

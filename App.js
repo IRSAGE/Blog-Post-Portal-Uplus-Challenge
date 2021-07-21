@@ -16,6 +16,7 @@ import HeaderButton from './components/HeaderButton'
 import CreatePostScreen from "./screens/CreatePostScreen";
 import CreateCommentScreen from "./screens/CreateCommentScreen";
 import PostDetailsScreen from "./screens/PostDetailsScreen";
+import CommentDetailScreen from "./screens/CommentDetailScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -94,6 +95,10 @@ export default function App() {
         <CommnetsStack.Screen
           name="CreateComment"
           component={CreateCommentScreen}
+        />
+        <CommnetsStack.Screen
+          name="CommentDetail"
+          component={CommentDetailScreen}
         />
       </CommnetsStack.Navigator>
     );

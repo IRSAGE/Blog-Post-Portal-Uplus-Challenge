@@ -1,17 +1,37 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
-
 import { View, FlatList } from "react-native";
-import Cell from "../components/Cell";
 
-const CommentsScreen = () => {
+import Cell from "../components/Cell";
+import LoadingScreen from "./LoadingScreen";
+import CellData from "../components/CellData";
+
+const CommentsScreen = ({ navigation }) => {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const comments = axios.get("/comments").then((response) => {
-      setComments(response.data);
-    });
+    setLoading(true);
+    const comments = axios
+      .get("/comments")
+      .then((response) => {
+        setComments(response.data);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        alert("Something went Wrong");
+        console.log(error);
+      });
   }, []);
+
+  const itemClickedHandler = (itemId) => {
+    navigation.navigate("CommentDetail", {
+      commentId: itemId,
+    });
+  };
+
+  if (loading || comments.length == 0)
+    return <LoadingScreen text={"Retriving Comments.... Please wait"} />;
 
   return (
     <View style={{ flex: 1 }}>
@@ -19,10 +39,11 @@ const CommentsScreen = () => {
       <FlatList
         data={comments}
         renderItem={(comment) => (
-          <Cell
+          <CellData
             first={comment.item.id}
             second={comment.item.email}
             third={comment.item.body}
+            onItemPressed={itemClickedHandler}
           />
         )}
       />
