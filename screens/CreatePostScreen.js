@@ -49,7 +49,7 @@ const CreatePostScreen = ({ navigation }) => {
     <View style={styles.screen}>
       <ScrollView>
         <View style={styles.header}>
-          <Avatar.Image size={74} source={require("../assets/Avatar.png")} />
+          <Avatar.Image size={84} source={require("../assets/postIcon.png")} />
           <Text style={styles.headerText}>Create A New Post</Text>
         </View>
         <View style={styles.TextContainer}>
