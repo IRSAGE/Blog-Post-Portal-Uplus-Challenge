@@ -15,6 +15,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from './components/HeaderButton'
 import CreatePostScreen from "./screens/CreatePostScreen";
 import CreateCommentScreen from "./screens/CreateCommentScreen";
+import PostDetailsScreen from "./screens/PostDetailsScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -39,7 +40,7 @@ export default function App() {
             })}
           />
           <UsersStack.Screen name="UserDetail" component={UserDetailScreen} />
-          <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
+          
         </UsersStack.Navigator>
       </PaperProvider>
     );
@@ -66,6 +67,7 @@ export default function App() {
           })}
         />
         <PostsStack.Screen name="CreatePost" component={CreatePostScreen} />
+        <PostsStack.Screen name="PostDetails" component={PostDetailsScreen} />
       </PostsStack.Navigator>
     );
   }
