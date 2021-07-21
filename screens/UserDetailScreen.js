@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Alert } from "react-native";
 import { Button, Avatar } from "react-native-paper";
 
 import axios from "../axios";
@@ -25,6 +25,50 @@ const UserDetailScreen = ({ route, navigation }) => {
         console.log(error);
       });
   }, []);
+
+   const itemDeleteHandler = () => {
+    if (userId) {
+      Alert.alert(
+        "User Deleting",
+        ` Are You Sure You Want To Delete User with Id ${userId}`,
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => console.log("Cancel button clicked"),
+          },
+          {
+            text: "Delete",
+            onPress: itemDeleteting,
+            style: "destructive",
+          },
+        ],
+        {
+          cancelable: false,
+        }
+      );
+    } else {
+    }
+  };
+
+  const itemDeleteting = () => {
+     setLoading(true);
+     axios
+       .delete(`/users/${JSON.stringify(userId)}`)
+       .then((response) => {
+         setLoading(false);
+         Alert.alert(
+           "User Deleting",
+           ` User With Id ${userId} Deleted SuccessFully`
+         );
+         navigation.navigate("Users");
+       })
+       .catch(function (error) {
+         alert("Something went Wrong", "Please Check Your Internet");
+         console.log(error);
+
+       });
+  }
 
   if (loading)
     return (
@@ -56,7 +100,7 @@ const UserDetailScreen = ({ route, navigation }) => {
               color={"#f08e25"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
-              onPress={() => {}}
+              onPress={itemDeleteHandler}
             >
               Delete User
             </Button>

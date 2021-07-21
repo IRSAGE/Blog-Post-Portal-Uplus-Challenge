@@ -57,8 +57,9 @@ const PostDetailsScreen = ({ route, navigation }) => {
        .then((response) => {
          setLoading(false);
          Alert.alert(
-        "Post Deleting",
-           ` Post With ${postId} Deleted SuccessFully`)
+           "Post Deleting",
+           ` Post With Id ${postId} Deleted SuccessFully`
+         );
          navigation.navigate("Posts");
        })
        .catch(function (error) {
