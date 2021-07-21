@@ -18,7 +18,6 @@ const PostsScreen = ({navigation}) => {
     navigation.navigate("PostDetails", {
       postId: itemId,
     });
-    // alert(`${itemId} Item Clicked`);
   };
 
   return (
