@@ -22,11 +22,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 50,
     width: "95%",
-    marginVertical: 10,
-    marginHorizontal:10,
+    marginVertical: 4,
+    marginHorizontal: 10,
     backgroundColor: "white",
-    borderColor: "grey",
-    borderWidth: 1,
+    borderColor: "black",
+    borderWidth: 0.3,
   },
 });
 

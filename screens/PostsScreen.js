@@ -15,7 +15,10 @@ const PostsScreen = ({navigation}) => {
   }, []);
 
   const itemClickedHandler = (itemId) => {
-    alert(`${itemId} Item Clicked`);
+    navigation.navigate("PostDetails", {
+      postId: itemId,
+    });
+    // alert(`${itemId} Item Clicked`);
   };
 
   return (
@@ -25,12 +28,6 @@ const PostsScreen = ({navigation}) => {
         data={Posts}
         style={{ }}
         renderItem={(post) => (
-          // <Cell
-          //   first={post.item.id}
-          //   second={post.item.title}
-          //   third={post.item.body}
-
-          // />
           <CellData
             first={post.item.id}
             second={post.item.title}

@@ -40,7 +40,7 @@ export default function App() {
             })}
           />
           <UsersStack.Screen name="UserDetail" component={UserDetailScreen} />
-          
+          <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
         </UsersStack.Navigator>
       </PaperProvider>
     );
