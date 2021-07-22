@@ -40,7 +40,7 @@ const UpdatePostScreen = ({ route, navigation }) => {
 
   const settingInputs = () => {
     console.log(post);
-    setUserId(post.userId.toString());
+    setUserId(post.userId);
     setTitle(post.title);
     setBody(post.body);
   };

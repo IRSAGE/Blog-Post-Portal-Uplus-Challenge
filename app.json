@@ -28,6 +28,7 @@
     },
     "web": {
       "favicon": "./assets/Avatar.png"
-    }
+    },
+    "description": ""
   }
 }
