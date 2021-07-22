@@ -8,9 +8,9 @@ const CellData = (props) => {
       onPress={props.onItemPressed.bind(this, props.first)}
     >
       <View style={styles.listItem}>
-        <Text style={{ flex: 1 }}>{props.first}</Text>
-        <Text style={{ flex: 2 }}>{props.second}</Text>
-        <Text style={{ flex: 3 }}>{props.third}</Text>
+        <Text style={{ flex: 1, color: "#1e4643" }}>{props.first}</Text>
+        <Text style={{ flex: 2, color: "#1e4643" }}>{props.second}</Text>
+        <Text style={{ flex: 3, color: "#1e4643"}}>{props.third}</Text>
       </View>
     </TouchableOpacity>
   );

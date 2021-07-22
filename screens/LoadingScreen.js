@@ -7,9 +7,9 @@ const LoadingScreen = (props) => {
     <View style={styles.screen}>
      
         <Image
-          source={require("../assets/loading4.gif")}
+          source={require("../assets/spinner.gif")}
           style={styles.image}
-          resizeMode="cover"
+          resizeMode="contain"
         />
      
       <Title style={styles.text}>{props.text}</Title>
@@ -26,19 +26,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: "bold",
-  },
-  imageContainer: {
-    width: "60%",
-    height: "60%",
-    borderRadius: 150,
-    borderWidth: 3,
-    borderColor: "black",
-    overflow: "hidden",
-    marginVertical: 30,
+    color: "#1e4643",
   },
   image: {
-    width: "60%",
-    height: "60%",
+    width: "40%",
+    height: "40%",
   },
 });
 

@@ -90,12 +90,12 @@ const UserDetailScreen = ({ route, navigation }) => {
           <DetailText>Website: {user.website}</DetailText>
           {/* <DetailText>{user.company}</DetailText>
           <DetailText>{user.address}</DetailText> */}
-          {/* <DetailText>{user.address.city}</DetailText>
-          <DetailText>{user.address.zipcode}</DetailText> */}
+          {/* <DetailText>City: {user.address.city}</DetailText>
+          <DetailText>ZipCode:{user.address.zipcode}</DetailText> */}
           <View style={styles.buttonContainer}>
             <Button
               mode="contained"
-              color={"#f08e25"}
+              color={"#1e4643"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
               onPress={itemDeleteHandler}
@@ -104,7 +104,7 @@ const UserDetailScreen = ({ route, navigation }) => {
             </Button>
             <Button
               mode="contained"
-              color={"#f08e25"}
+              color={"#1e4643"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
               onPress={() => {
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#1e4643",
   },
   buttonContainer: {
     flexDirection: "row",

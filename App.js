@@ -21,13 +21,24 @@ import UpdatePostScreen from "./screens/UpdatePostScreen";
 import UpdateCommentScreen from "./screens/UpdateCommentScreen";
 import UpdateUserScreen from "./screens/UpdateUserScreen";
 
+
 export default function App() {
   const UsersStack = createStackNavigator();
 
   function UsersStackScreen() {
     return (
       <PaperProvider>
-        <UsersStack.Navigator>
+        <UsersStack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "white",
+            },
+            headerTintColor: "#1e4643",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        >
           <UsersStack.Screen
             name="Users"
             component={UsersScreen}
@@ -55,7 +66,17 @@ export default function App() {
 
   function PostsStackScreen() {
     return (
-      <PostsStack.Navigator>
+      <PostsStack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "white",
+          },
+          headerTintColor: "#1e4643",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
         <PostsStack.Screen
           name="Posts"
           component={PostsScreen}
@@ -81,7 +102,17 @@ export default function App() {
 
   function CommentStackScreen() {
     return (
-      <CommnetsStack.Navigator>
+      <CommnetsStack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "white",
+          },
+          headerTintColor: "#1e4643",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
         <CommnetsStack.Screen
           name="Comments"
           component={CommentsScreen}
@@ -133,7 +164,7 @@ export default function App() {
           },
         })}
         tabBarOptions={{
-          activeTintColor: "tomato",
+          activeTintColor: "#1e4643",
           inactiveTintColor: "gray",
         }}
       >

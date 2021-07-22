@@ -124,7 +124,7 @@ const UpdateCommentScreen = ({ route, navigation }) => {
           />
           <Button
             mode="contained"
-            color={"#f08e25"}
+            color={"#1e4643"}
             labelStyle={{ color: "white", fontSize: 15 }}
             style={styles.btn}
             onPress={handleInputsHandler}
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    color: "#1e4643",
   },
   textArea: {
     height: 100,

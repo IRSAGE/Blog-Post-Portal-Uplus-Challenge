@@ -86,7 +86,7 @@ const PostDetailsScreen = ({ route, navigation }) => {
           <View style={styles.buttonContainer}>
             <Button
               mode="contained"
-              color={"#f08e25"}
+              color={"#1e4643"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
               onPress={itemDeleteHandler}
@@ -95,7 +95,7 @@ const PostDetailsScreen = ({ route, navigation }) => {
             </Button>
             <Button
               mode="contained"
-              color={"#f08e25"}
+              color={"#1e4643"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
               onPress={() => {
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#1e4643",
   },
   buttonContainer: {
     flexDirection: "row",

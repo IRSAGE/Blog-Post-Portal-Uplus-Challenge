@@ -20,7 +20,6 @@ const CommentDetailScreen = ({ route, navigation }) => {
      .then((response) => {
        setComment(response.data);
        setLoading(false);
-       console.log(response.data);
      })
      .catch(function (error) {
        Alert.alert("Something went Wrong", "Please Check Your Internet");
@@ -93,7 +92,7 @@ if (loading)
             <DetailText> {comment.body}</DetailText>
             <Button
               mode="contained"
-              color={"#f08e25"}
+              color={"#1e4643"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
               onPress={itemDeleteHandler}
@@ -102,13 +101,14 @@ if (loading)
             </Button>
             <Button
               mode="contained"
-              color={"#f08e25"}
+              color={"#1e4643"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
-              onPress={() => { navigation.navigate("UpdateComment", {
-                id: commentId,
-
-              });}}
+              onPress={() => {
+                navigation.navigate("UpdateComment", {
+                  id: commentId,
+                });
+              }}
             >
               Update Comment
             </Button>
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#1e4643",
   },
 });
 
