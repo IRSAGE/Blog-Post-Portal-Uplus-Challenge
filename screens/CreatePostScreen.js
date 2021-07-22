@@ -2,7 +2,14 @@ import React, { useState } from "react";
 
 import axios from "../axios";
 
-import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
@@ -29,7 +36,7 @@ const CreatePostScreen = ({ navigation }) => {
           navigation.goBack();
         })
         .catch(function (error) {
-          alert("Sommething is Wrong");
+          Alert.alert("Something went Wrong", "Please Check Your Internet");
           console.log(error);
         });
     } else {

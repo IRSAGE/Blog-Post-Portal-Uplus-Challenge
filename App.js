@@ -19,6 +19,7 @@ import PostDetailsScreen from "./screens/PostDetailsScreen";
 import CommentDetailScreen from "./screens/CommentDetailScreen";
 import UpdatePostScreen from "./screens/UpdatePostScreen";
 import UpdateCommentScreen from "./screens/UpdateCommentScreen";
+import UpdateUserScreen from "./screens/UpdateUserScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -44,6 +45,7 @@ export default function App() {
           />
           <UsersStack.Screen name="UserDetails" component={UserDetailScreen} />
           <UsersStack.Screen name="CreateUsers" component={CreateuserScreen} />
+          <UsersStack.Screen name="UserUpdating" component={UpdateUserScreen} />
         </UsersStack.Navigator>
       </PaperProvider>
     );

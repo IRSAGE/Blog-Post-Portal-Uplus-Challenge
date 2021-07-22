@@ -25,7 +25,7 @@ const UserDetailScreen = ({ route, navigation }) => {
       });
   }, []);
 
-   const itemDeleteHandler = () => {
+  const itemDeleteHandler = () => {
     if (userId) {
       Alert.alert(
         "User Deleting",
@@ -51,23 +51,22 @@ const UserDetailScreen = ({ route, navigation }) => {
   };
 
   const itemDeleteting = () => {
-     setLoading(true);
-     axios
-       .delete(`/users/${JSON.stringify(userId)}`)
-       .then((response) => {
-         setLoading(false);
-         Alert.alert(
-           "User Deleting",
-           ` User With Id ${userId} Deleted SuccessFully`
-         );
-         navigation.navigate("Users");
-       })
-       .catch(function (error) {
-         Alert.alert("Something went Wrong", "Please Check Your Internet");
-         console.log(error);
-
-       });
-  }
+    setLoading(true);
+    axios
+      .delete(`/users/${JSON.stringify(userId)}`)
+      .then((response) => {
+        setLoading(false);
+        Alert.alert(
+          "User Deleting",
+          ` User With Id ${userId} Deleted SuccessFully`
+        );
+        navigation.navigate("Users");
+      })
+      .catch(function (error) {
+        Alert.alert("Something went Wrong", "Please Check Your Internet");
+        console.log(error);
+      });
+  };
 
   if (loading)
     return (
@@ -108,7 +107,11 @@ const UserDetailScreen = ({ route, navigation }) => {
               color={"#f08e25"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("UserUpdating", {
+                  id: userId,
+                });
+              }}
             >
               Update User
             </Button>
