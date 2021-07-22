@@ -18,6 +18,7 @@ import CreateCommentScreen from "./screens/CreateCommentScreen";
 import PostDetailsScreen from "./screens/PostDetailsScreen";
 import CommentDetailScreen from "./screens/CommentDetailScreen";
 import UpdatePostScreen from "./screens/UpdatePostScreen";
+import UpdateCommentScreen from "./screens/UpdateCommentScreen";
 
 export default function App() {
   const UsersStack = createStackNavigator();
@@ -101,6 +102,10 @@ export default function App() {
         <CommnetsStack.Screen
           name="CommentDetail"
           component={CommentDetailScreen}
+        />
+        <CommnetsStack.Screen
+          name="UpdateComment"
+          component={UpdateCommentScreen}
         />
       </CommnetsStack.Navigator>
     );

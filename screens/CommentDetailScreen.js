@@ -72,7 +72,7 @@ const CommentDetailScreen = ({ route, navigation }) => {
   };
     
 if (loading)
-  return <LoadingScreen text={"Retriving Comment's Information ... Please wait"} />;
+  return <LoadingScreen text={"Loading... ... Please wait"} />;
 
     return (
       <View style={styles.screen}>
@@ -105,7 +105,10 @@ if (loading)
               color={"#f08e25"}
               labelStyle={{ color: "white", fontSize: 15 }}
               style={styles.btn}
-              onPress={() => {}}
+              onPress={() => { navigation.navigate("UpdateComment", {
+                id: commentId,
+
+              });}}
             >
               Update Comment
             </Button>

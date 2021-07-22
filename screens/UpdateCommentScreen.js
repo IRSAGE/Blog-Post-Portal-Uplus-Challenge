@@ -1,24 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "../axios";
 
-import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
 
-const CreateCommentScreen = ({navigation}) => {
+const UpdateCommentScreen = ({ route, navigation }) => {
+  const { id } = route.params;
+  const [comment, setComment] = useState({});
+
   const [postId, setPostId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
 
+     useEffect(() => {
+       setLoading(true);
+       axios
+         .get(`/comments/${JSON.stringify(id)}`)
+         .then((response) => {
+           setComment(response.data);
+           settingInputs();
+           setLoading(false);
+         })
+         .catch(function (error) {
+           Alert.alert("Something went Wrong", "Please Check Your Internet");
+           console.log(error);
+         });
+     }, [id]);
+    
+    
+  const settingInputs = () => {
+    console.log(comment);
+    setPostId(comment.postId.toString());
+    setName(comment.name);
+    setEmail(comment.email);
+    setBody(comment.body);
+  };
+
   const handleInputsHandler = async () => {
     if (postId != "" && name != "" && email != "" && body != "") {
       setLoading(true);
       await axios
-        .post("/comments", {
+        .put(`/comments/${JSON.stringify(id)}`, {
           postId: postId,
           name: name,
           email: email,
@@ -26,9 +60,12 @@ const CreateCommentScreen = ({navigation}) => {
         })
         .then(function (response) {
           setLoading(false);
-          alert("Comment Created Successfull");
-          cleanInputs()
-          navigation.goBack();
+          Alert.alert(
+            "Comment Update",
+            ` Comment With Id ${id} Updated SuccessFully`
+          );
+          cleanInputs();
+          navigation.navigate("Comments");
         })
         .catch(function (error) {
           alert("Sommething is Wrong");
@@ -47,13 +84,13 @@ const CreateCommentScreen = ({navigation}) => {
   };
 
   if (loading)
-    return <LoadingScreen text={"Creating New Comment ... Please wait"} />;
+    return <LoadingScreen text={"Loading... Please wait"} />;
   return (
     <View style={styles.screen}>
       <ScrollView>
         <View style={styles.header}>
-          <Avatar.Image size={74} source={require("../assets/Avatar.png")} />
-          <Text style={styles.headerText}>Create A New Comment</Text>
+          <Avatar.Image size={74} source={require("../assets/postIcon.png")} />
+          <Text style={styles.headerText}>Update Comment</Text>
         </View>
         <View style={styles.TextContainer}>
           <TextInputComp
@@ -92,7 +129,7 @@ const CreateCommentScreen = ({navigation}) => {
             style={styles.btn}
             onPress={handleInputsHandler}
           >
-            Create Comment
+            Update Comment
           </Button>
         </View>
       </ScrollView>
@@ -126,5 +163,4 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
 });
-
-export default CreateCommentScreen;
+export default UpdateCommentScreen;
