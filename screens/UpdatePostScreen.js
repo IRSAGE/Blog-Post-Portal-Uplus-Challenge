@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "../axios";
 
@@ -23,7 +23,7 @@ const UpdatePostScreen = ({ route, navigation }) => {
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
 
-  if (id) {
+  useEffect(() => {
     setLoading(true);
     axios
       .get(`/posts/${JSON.stringify(id)}`)
@@ -36,50 +36,50 @@ const UpdatePostScreen = ({ route, navigation }) => {
         Alert.alert("Something went Wrong", "Please Check Your Internet");
         console.log(error);
       });
-  }
+  }, [id]);
 
   const settingInputs = () => {
-    setUserId(post.userId);
+    console.log(post);
+    setUserId(post.userId.toString());
     setTitle(post.title);
     setBody(post.body);
   };
 
-//   const handleInputsHandler = async () => {
-//     if (userId != "" && title != "" && body != "") {
-//       setLoading(true);
-//       await axios
-//         .put("/posts", {
-//           userId: userId,
-//           title: title,
-//           body: body,
-//         })
-//         .then(function (response) {
-//           setLoading(false);
-//            Alert.alert(
-//              "Post Update",
-//              ` Post With Id ${postId} Updated SuccessFully`
-//             );
-//             cleanInputs();
-//            navigation.navigate("Posts");
-          
-//         })
-//         .catch(function (error) {
-//           Alert.alert("Something went Wrong", "Please Check Your Internet");
-//           console.log(error);
-//         });
-//     } else {
-//        Alert.alert("Check Your Inputs","There Are Some Missing Value");
-//     }
-//   };
+  const handleInputsHandler = async () => {
+    if (userId != "" && title != "" && body != "") {
+      setLoading(true);
+      await axios
+        .put(`/posts/${JSON.stringify(id)}`, {
+          userId: userId,
+          title: title,
+          body: body,
+        })
+        .then(function (response) {
+          setLoading(false);
+          Alert.alert(
+            "Post Update",
+            ` Post With Id ${id} Updated SuccessFully`
+          );
+          cleanInputs();
+          navigation.navigate("Posts");
+        })
+        .catch(function (error) {
+          Alert.alert("Something went Wrong", "Please Check Your Internet");
+          console.log(error);
+        });
+    } else {
+      Alert.alert("Check Your Inputs", "There Are Some Missing Value");
+      
+    }
+  };
 
-//   const cleanInputs = () => {
-//     setUserId("");
-//     setTitle("");
-//     setBody("");
-//   };
+  const cleanInputs = () => {
+    setUserId("");
+    setTitle("");
+    setBody("");
+  };
 
-  if (loading)
-    return <LoadingScreen text={"Loading... Please wait"} />;
+  if (loading) return <LoadingScreen text={"Loading... Please wait"} />;
 
   return (
     <View style={styles.screen}>
@@ -117,7 +117,7 @@ const UpdatePostScreen = ({ route, navigation }) => {
             color={"#f08e25"}
             labelStyle={{ color: "white", fontSize: 15 }}
             style={styles.btn}
-            onPress={()=>{}}
+            onPress={handleInputsHandler}
           >
             Update Post
           </Button>
