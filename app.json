@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "blog-post-portal-challenge",
-    "slug": "blog-post-portal-challenge",
+    "name": "blog-post-portal",
+    "slug": "blog-post-portal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Avatar.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,12 +21,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Avatar.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.irsage.blogpost"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Avatar.png"
     }
   }
 }

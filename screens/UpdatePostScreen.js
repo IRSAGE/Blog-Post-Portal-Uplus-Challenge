@@ -1,57 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import axios from "../axios";
 
-import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
 
-const CreatePostScreen = ({ navigation }) => {
+const UpdatePostScreen = ({ route, navigation }) => {
+  const { id } = route.params;
+  const [post, setPost] = useState({});
+
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleInputsHandler = async () => {
-    if (userId != "" && title != "" && body != "") {
-      setLoading(true);
-      await axios
-        .post("/posts", {
-          userId: userId,
-          title: title,
-          body: body,
-        })
-        .then(function (response) {
-          setLoading(false);
-          alert("Post Created Successfull");
-          cleanInputs();
-          navigation.goBack();
-        })
-        .catch(function (error) {
-          alert("Sommething is Wrong");
-          console.log(error);
-        });
-    } else {
-      alert("There Are Some Missing Value");
-    }
+  if (id) {
+    setLoading(true);
+    axios
+      .get(`/posts/${JSON.stringify(id)}`)
+      .then((response) => {
+        setPost(response.data);
+        settingInputs();
+        setLoading(false);
+      })
+      .catch(function (error) {
+        Alert.alert("Something went Wrong", "Please Check Your Internet");
+        console.log(error);
+      });
+  }
+
+  const settingInputs = () => {
+    setUserId(post.userId);
+    setTitle(post.title);
+    setBody(post.body);
   };
 
-  const cleanInputs = () => {
-    setUserId("");
-    setTitle("");
-    setBody("");
-  };
+//   const handleInputsHandler = async () => {
+//     if (userId != "" && title != "" && body != "") {
+//       setLoading(true);
+//       await axios
+//         .put("/posts", {
+//           userId: userId,
+//           title: title,
+//           body: body,
+//         })
+//         .then(function (response) {
+//           setLoading(false);
+//            Alert.alert(
+//              "Post Update",
+//              ` Post With Id ${postId} Updated SuccessFully`
+//             );
+//             cleanInputs();
+//            navigation.navigate("Posts");
+          
+//         })
+//         .catch(function (error) {
+//           Alert.alert("Something went Wrong", "Please Check Your Internet");
+//           console.log(error);
+//         });
+//     } else {
+//        Alert.alert("Check Your Inputs","There Are Some Missing Value");
+//     }
+//   };
+
+//   const cleanInputs = () => {
+//     setUserId("");
+//     setTitle("");
+//     setBody("");
+//   };
 
   if (loading)
-    return <LoadingScreen text={"Creating New Post ... Please wait"} />;
+    return <LoadingScreen text={"Loading... Please wait"} />;
 
   return (
     <View style={styles.screen}>
       <ScrollView>
         <View style={styles.header}>
           <Avatar.Image size={84} source={require("../assets/postIcon.png")} />
-          <Text style={styles.headerText}>Create A New Post</Text>
+          <Text style={styles.headerText}>Update Post</Text>
         </View>
         <View style={styles.TextContainer}>
           <TextInputComp
@@ -82,9 +117,9 @@ const CreatePostScreen = ({ navigation }) => {
             color={"#f08e25"}
             labelStyle={{ color: "white", fontSize: 15 }}
             style={styles.btn}
-            onPress={handleInputsHandler}
+            onPress={()=>{}}
           >
-            Create Post
+            Update Post
           </Button>
         </View>
       </ScrollView>
@@ -118,5 +153,4 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
 });
-
-export default CreatePostScreen;
+export default UpdatePostScreen;
