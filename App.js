@@ -5,6 +5,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Provider as PaperProvider } from "react-native-paper";
 
+import { BlogProvider } from "./context/BlogProvider";
+import reducer, { initialState } from "./context/reducer";
+
 import UsersScreen from "./screens/UsersScreen";
 import PostsScreen from "./screens/PostsScreen";
 import CommentsScreen from "./screens/CommentsScreen";
@@ -12,7 +15,7 @@ import UserDetailScreen from "./screens/UserDetailScreen";
 import CreateuserScreen from "./screens/CreateuserScreen";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import HeaderButton from './components/HeaderButton'
+import HeaderButton from "./components/HeaderButton";
 import CreatePostScreen from "./screens/CreatePostScreen";
 import CreateCommentScreen from "./screens/CreateCommentScreen";
 import PostDetailsScreen from "./screens/PostDetailsScreen";
@@ -21,8 +24,7 @@ import UpdatePostScreen from "./screens/UpdatePostScreen";
 import UpdateCommentScreen from "./screens/UpdateCommentScreen";
 import UpdateUserScreen from "./screens/UpdateUserScreen";
 
-
-export default function App() {
+function App() {
   const UsersStack = createStackNavigator();
 
   function UsersStackScreen() {
@@ -175,3 +177,11 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export default () => {
+  return (
+    <BlogProvider initialState={initialState} reducer={reducer}>
+      <App />
+    </BlogProvider>
+  );
+};

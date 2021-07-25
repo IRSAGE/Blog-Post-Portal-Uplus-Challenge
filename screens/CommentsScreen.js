@@ -38,6 +38,7 @@ const CommentsScreen = ({ navigation }) => {
       <Cell first="Id" second="Email" third="Body" />
       <FlatList
         data={comments}
+         keyExtractor={(item, index) => item + index.toString()}
         renderItem={(comment) => (
           <CellData
             first={comment.item.id}

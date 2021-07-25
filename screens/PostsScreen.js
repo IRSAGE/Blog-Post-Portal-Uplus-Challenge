@@ -39,7 +39,7 @@ const PostsScreen = ({ navigation }) => {
       <Cell first="Id" second="Title" third="Body" />
       <FlatList
         data={Posts}
-        style={{ }}
+        keyExtractor={(item, index) => item + index.toString()}
         renderItem={(post) => (
           <CellData
             first={post.item.id}

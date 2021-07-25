@@ -38,6 +38,7 @@ const UsersScreen = ({ navigation }) => {
       <Cell first="Id" second="Name" third="Phone Number" />
       <FlatList
         data={users}
+        keyExtractor={(item, index) => item + index.toString()}
         renderItem={(users) => (
           <CellData
             first={users.item.id}
