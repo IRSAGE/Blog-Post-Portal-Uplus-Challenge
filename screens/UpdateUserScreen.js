@@ -16,8 +16,7 @@ import LoadingScreen from "./LoadingScreen";
 
 const UpdateUserScreen = ({ navigation, route }) => {
   const { id } = route.params;
-  const [user, setUser] = useState({});
-
+  
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [street, setStreet] = useState("");

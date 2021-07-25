@@ -20,7 +20,7 @@ const UserDetailScreen = ({ route, navigation }) => {
         setLoading(false);
       })
       .catch(function (error) {
-        Alert.alert("Something went Wrong", "Please Check Your Internet");
+        Alert.alert("Something went Wrong", error.message);
         console.log(error);
       });
   }, []);

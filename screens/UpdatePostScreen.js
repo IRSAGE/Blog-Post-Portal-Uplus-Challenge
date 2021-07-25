@@ -27,7 +27,6 @@ const UpdatePostScreen = ({ route, navigation }) => {
     axios
       .get(`/posts/${JSON.stringify(id)}`)
       .then((response) => {
-        // setPost(response.data);
         settingInputs(response);
         setLoading(false);
       })
@@ -39,7 +38,6 @@ const UpdatePostScreen = ({ route, navigation }) => {
 
   const settingInputs = (response) => {
     setUserId(response.data.userId.toString());
-    console.log(response.data.userId.toString());
     setTitle(response.data.title);
     setBody(response.data.body);
   };

@@ -16,7 +16,6 @@ import LoadingScreen from "./LoadingScreen";
 
 const UpdateCommentScreen = ({ route, navigation }) => {
   const { id } = route.params;
-  const [comment, setComment] = useState({});
 
   const [postId, setPostId] = useState("");
   const [name, setName] = useState("");
