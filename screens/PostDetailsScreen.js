@@ -11,17 +11,18 @@ const PostDetailsScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/posts/${JSON.stringify(postId)}`)
-      .then((response) => {
+    const getPost = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/posts/${JSON.stringify(postId)}`);
         setPost(response.data);
         setLoading(false);
-      })
-      .catch(function (error) {
-        alert("Something went Wrong");
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
         console.log(error);
-      });
+      }
+    };
+    getPost();
   }, []);
 
   const itemDeleteHandler = () => {
@@ -49,22 +50,20 @@ const PostDetailsScreen = ({ route, navigation }) => {
     }
   };
 
-  const itemDeleteting = () => {
+  const itemDeleteting = async () => {
     setLoading(true);
-    axios
-      .delete(`/posts/${JSON.stringify(postId)}`)
-      .then((response) => {
-        setLoading(false);
-        Alert.alert(
-          "Post Deleting",
-          ` Post With Id ${postId} Deleted SuccessFully`
-        );
-        navigation.navigate("Posts");
-      })
-      .catch(function (error) {
-        alert("Something went Wrong", "Please Check Your Internet");
-        console.log(error);
-      });
+    try {
+      await axios.delete(`/posts/${JSON.stringify(postId)}`);
+      setLoading(false);
+      Alert.alert(
+        "Post Deleting",
+        ` Post With Id ${postId} Deleted SuccessFully`
+      );
+      navigation.navigate("Posts");
+    } catch (error) {
+      Alert.alert("Something went Wrong", error.message);
+      console.log(error);
+    }
   };
 
   if (loading)

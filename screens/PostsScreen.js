@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
 
-import { View, FlatList } from "react-native";
+import { View, FlatList, Alert } from "react-native";
 import Cell from "../components/Cell";
 import CellData from "../components/CellData";
 import LoadingScreen from "./LoadingScreen";
 
 const PostsScreen = ({ navigation }) => {
-  
   const [Posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    const posts = axios
-      .get("/posts")
-      .then((response) => {
+    const getPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get("/posts");
         setPosts(response.data);
         setLoading(false);
-      })
-      .catch(function (error) {
-        alert("Something went Wrong");
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
         console.log(error);
-      });
+      }
+    };
+    getPosts();
   }, []);
 
   const itemClickedHandler = (itemId) => {
@@ -31,11 +31,11 @@ const PostsScreen = ({ navigation }) => {
     });
   };
 
- if (loading || Posts.length == 0)
-   return <LoadingScreen text={"Retriving Posts.... Please wait"} />;
+  if (loading || Posts.length == 0)
+    return <LoadingScreen text={"Retriving Posts.... Please wait"} />;
 
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Cell first="Id" second="Title" third="Body" />
       <FlatList
         data={Posts}

@@ -2,12 +2,19 @@ import React, { useState } from "react";
 
 import axios from "../axios";
 
-import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
 
-const CreateCommentScreen = ({navigation}) => {
+const CreateCommentScreen = ({ navigation }) => {
   const [postId, setPostId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,25 +24,30 @@ const CreateCommentScreen = ({navigation}) => {
   const handleInputsHandler = async () => {
     if (postId != "" && name != "" && email != "" && body != "") {
       setLoading(true);
-      await axios
-        .post("/comments", {
+      try {
+        await axios.post("/comments", {
           postId: postId,
           name: name,
           email: email,
           body: body,
-        })
-        .then(function (response) {
-          setLoading(false);
-          alert("Comment Created Successfull");
-          cleanInputs()
-          navigation.goBack();
-        })
-        .catch(function (error) {
-          alert("Sommething is Wrong");
-          console.log(error);
         });
+        setLoading(false);
+        Alert.alert("Comment Creation", "Comment Created Successfull");
+        cleanInputs();
+        navigation.goBack();
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
+      setLoading(true);
+      await axios.post("/comments", {
+        postId: postId,
+        name: name,
+        email: email,
+        body: body,
+      });
     } else {
-      alert("There Are Some Missing Value");
+      Alert.alert("Check Your Inputs", "There Are Some Missing Value");
     }
   };
 

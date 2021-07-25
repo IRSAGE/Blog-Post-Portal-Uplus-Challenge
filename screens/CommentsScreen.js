@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Alert } from "react-native";
 
 import Cell from "../components/Cell";
 import LoadingScreen from "./LoadingScreen";
@@ -11,17 +11,18 @@ const CommentsScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    const comments = axios
-      .get("/comments")
-      .then((response) => {
+    const getComments = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get("/comments");
         setComments(response.data);
         setLoading(false);
-      })
-      .catch(function (error) {
-        alert("Something went Wrong");
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
         console.log(error);
-      });
+      }
+    };
+    getComments();
   }, []);
 
   const itemClickedHandler = (itemId) => {
@@ -38,7 +39,7 @@ const CommentsScreen = ({ navigation }) => {
       <Cell first="Id" second="Email" third="Body" />
       <FlatList
         data={comments}
-         keyExtractor={(item, index) => item + index.toString()}
+        keyExtractor={(item, index) => item + index.toString()}
         renderItem={(comment) => (
           <CellData
             first={comment.item.id}

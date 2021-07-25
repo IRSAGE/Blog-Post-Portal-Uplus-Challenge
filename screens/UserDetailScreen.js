@@ -12,17 +12,18 @@ const UserDetailScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+  const getUser = async () => {
     setLoading(true);
-    axios
-      .get(`/users/${JSON.stringify(userId)}`)
-      .then((response) => {
-        setUser(response.data);
-        setLoading(false);
-      })
-      .catch(function (error) {
-        Alert.alert("Something went Wrong", error.message);
-        console.log(error);
-      });
+    try {
+      const response = await axios.get(`/users/${JSON.stringify(userId)}`);
+      setUser(response.data);
+      setLoading(false);
+    } catch (error) {
+      Alert.alert("Something went Wrong", error.message);
+      console.log(error);
+    }
+  };
+    getUser();
   }, []);
 
   const itemDeleteHandler = () => {
@@ -50,22 +51,20 @@ const UserDetailScreen = ({ route, navigation }) => {
     }
   };
 
-  const itemDeleteting = () => {
+  const itemDeleteting = async () => {
     setLoading(true);
-    axios
-      .delete(`/users/${JSON.stringify(userId)}`)
-      .then((response) => {
-        setLoading(false);
-        Alert.alert(
-          "User Deleting",
-          ` User With Id ${userId} Deleted SuccessFully`
-        );
-        navigation.navigate("Users");
-      })
-      .catch(function (error) {
-        Alert.alert("Something went Wrong", "Please Check Your Internet");
-        console.log(error);
-      });
+    try {
+     await axios.delete(`/users/${JSON.stringify(userId)}`);
+      setLoading(false);
+      Alert.alert(
+        "User Deleting",
+        ` User With Id ${userId} Deleted SuccessFully`
+      );
+      navigation.navigate("Users");
+    } catch (error) {
+       Alert.alert("Something went Wrong", error.message);
+       console.log(error);
+    }
   };
 
   if (loading)

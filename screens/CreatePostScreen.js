@@ -22,25 +22,23 @@ const CreatePostScreen = ({ navigation }) => {
 
   const handleInputsHandler = async () => {
     if (userId != "" && title != "" && body != "") {
-      setLoading(true);
-      await axios
-        .post("/posts", {
+      try {
+        setLoading(true);
+        await axios.post("/posts", {
           userId: userId,
           title: title,
           body: body,
-        })
-        .then(function (response) {
-          setLoading(false);
-          alert("Post Created Successfull");
-          cleanInputs();
-          navigation.goBack();
-        })
-        .catch(function (error) {
-          Alert.alert("Something went Wrong", "Please Check Your Internet");
-          console.log(error);
         });
+        setLoading(false);
+         Alert.alert("Post Creation", "Post Created Successfull");
+        cleanInputs();
+        navigation.goBack();
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
     } else {
-      alert("There Are Some Missing Value");
+      Alert.alert("Check Your Inputs", "There Are Some Missing Value");
     }
   };
 

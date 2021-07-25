@@ -16,24 +16,25 @@ import LoadingScreen from "./LoadingScreen";
 
 const UpdatePostScreen = ({ route, navigation }) => {
   const { id } = route.params;
- 
+
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/posts/${JSON.stringify(id)}`)
-      .then((response) => {
+    const getPost = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/posts/${JSON.stringify(id)}`);
         settingInputs(response);
         setLoading(false);
-      })
-      .catch(function (error) {
+      } catch (error) {
         Alert.alert("Something went Wrong", error.message);
         console.log(error);
-      });
+      }
+    };
+    getPost();
   }, [id]);
 
   const settingInputs = (response) => {
@@ -44,29 +45,23 @@ const UpdatePostScreen = ({ route, navigation }) => {
 
   const handleInputsHandler = async () => {
     if (userId != "" && title != "" && body != "") {
-      setLoading(true);
-      await axios
-        .put(`/posts/${JSON.stringify(id)}`, {
+      try {
+        setLoading(true);
+        await axios.put(`/posts/${JSON.stringify(id)}`, {
           userId: userId,
           title: title,
           body: body,
-        })
-        .then(function (response) {
-          setLoading(false);
-          Alert.alert(
-            "Post Update",
-            ` Post With Id ${id} Updated SuccessFully`
-          );
-          cleanInputs();
-          navigation.navigate("Posts");
-        })
-        .catch(function (error) {
-          Alert.alert("Something went Wrong", "Please Check Your Internet");
-          console.log(error);
         });
+        setLoading(false);
+        Alert.alert("Post Update", ` Post With Id ${id} Updated SuccessFully`);
+        cleanInputs();
+        navigation.navigate("Posts");
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
     } else {
       Alert.alert("Check Your Inputs", "There Are Some Missing Value");
-
     }
   };
 

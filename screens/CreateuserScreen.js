@@ -2,7 +2,14 @@ import React, { useState } from "react";
 
 import axios from "../axios";
 
-import { View, Text, ScrollView, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
@@ -29,9 +36,9 @@ const CreateuserScreen = ({ navigation }) => {
       lat != "" &&
       lng != ""
     ) {
-      setLoading(true);
-      await axios
-        .post("/users", {
+      try {
+        setLoading(true);
+        await axios.post("/users", {
           name: name,
           username: userName,
           address: {
@@ -44,19 +51,17 @@ const CreateuserScreen = ({ navigation }) => {
               lng: lng,
             },
           },
-        })
-        .then(function (response) {
-          setLoading(false);
-          alert("User Created Successfull");
-          cleanInputs();
-          navigation.goBack();
-        })
-        .catch(function (error) {
-          alert("Sommething is Wrong");
-          console.log(error);
         });
+        setLoading(false);
+        Alert.alert("User Creation","User Created Successfull");
+        cleanInputs();
+        navigation.goBack();
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
     } else {
-      alert("There Are Some Missing Value");
+       Alert.alert("Check Your Inputs", "There Are Some Missing Value");
     }
   };
 

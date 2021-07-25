@@ -16,7 +16,7 @@ import LoadingScreen from "./LoadingScreen";
 
 const UpdateUserScreen = ({ navigation, route }) => {
   const { id } = route.params;
-  
+
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [street, setStreet] = useState("");
@@ -28,17 +28,18 @@ const UpdateUserScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/users/${JSON.stringify(id)}`)
-      .then((response) => {
+    const getUser = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/users/${JSON.stringify(id)}`);
         settingInputs(response);
         setLoading(false);
-      })
-      .catch(function (error) {
+      } catch (error) {
         Alert.alert("Something went Wrong", error.message);
         console.log(error);
-      });
+      }
+    };
+    getUser();
   }, []);
 
   const settingInputs = (response) => {
@@ -63,9 +64,9 @@ const UpdateUserScreen = ({ navigation, route }) => {
       lat != "" &&
       lng != ""
     ) {
-      setLoading(true);
-      await axios
-        .put(`/users/${JSON.stringify(id)}`, {
+      try {
+        setLoading(true);
+        await axios.put(`/users/${JSON.stringify(id)}`, {
           name: name,
           username: userName,
           address: {
@@ -78,22 +79,18 @@ const UpdateUserScreen = ({ navigation, route }) => {
               lng: lng,
             },
           },
-        })
-        .then(function (response) {
-          setLoading(false);
-          Alert.alert(
-            "User Update",
-            ` User With Id ${id} Updated SuccessFully`
-          );
-          cleanInputs();
-          navigation.navigate("Users");
-        })
-        .catch(function (error) {
-          Alert.alert("Something went Wrong", "Please Check Your Internet");
-          console.log(error);
         });
+
+        setLoading(false);
+        Alert.alert("User Update", ` User With Id ${id} Updated SuccessFully`);
+        cleanInputs();
+        navigation.navigate("Users");
+      } catch (error) {
+        Alert.alert("Something went Wrong", "Please Check Your Internet");
+        console.log(error);
+      }
     } else {
-      alert("There Are Some Missing Value");
+       Alert.alert("Check Your Inputs", "There Are Some Missing Value");
     }
   };
 

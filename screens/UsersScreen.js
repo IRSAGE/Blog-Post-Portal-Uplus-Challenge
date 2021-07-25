@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Alert } from "react-native";
 import axios from "../axios";
 import Cell from "../components/Cell";
 import CellData from "../components/CellData";
@@ -13,25 +13,18 @@ const UsersScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    // try {
-    //   const response = axios.get("/users");
-    //    setUsers(response.data);
-    //    setLoading(false);  
-    // } catch (error) {
-    //   alert("Something went Wrong");
-    //   console.log(error);
-    // }
-     const Users = axios
-       .get("/users")
-       .then((response) => {
-         setUsers(response.data);
-         setLoading(false);
-       })
-       .catch(function (error) {
-         alert("Something went Wrong");
-         console.log(error);
-       });
+    const getUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get("/users");
+        setUsers(response.data);
+        setLoading(false);
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
+    };
+    getUsers();
   }, []);
 
   const itemClickedHandler = (itemId) => {
@@ -42,7 +35,6 @@ const UsersScreen = ({ navigation }) => {
 
   if (loading || users.length == 0)
     return <LoadingScreen text={"Retriving Users.... Please wait"} />;
-  
 
   return (
     <View style={{ flex: 1 }}>

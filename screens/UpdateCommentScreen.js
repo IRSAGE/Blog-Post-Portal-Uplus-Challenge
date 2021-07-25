@@ -23,22 +23,21 @@ const UpdateCommentScreen = ({ route, navigation }) => {
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
 
-     useEffect(() => {
-       setLoading(true);
-       axios
-         .get(`/comments/${JSON.stringify(id)}`)
-         .then((response) => {
-           settingInputs(response);
-           setLoading(false);
-           
-         })
-         .catch(function (error) {
-           Alert.alert("Something went Wrong", "Please Check Your Internet");
-           console.log(error);
-         });
-     }, [id]);
-    
-    
+  useEffect(() => {
+    const getComment = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/comments/${JSON.stringify(id)}`);
+        settingInputs(response);
+        setLoading(false);
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
+    };
+    getComment();
+  }, [id]);
+
   const settingInputs = (response) => {
     setPostId(response.data.postId.toString());
     setName(response.data.name);
@@ -48,29 +47,28 @@ const UpdateCommentScreen = ({ route, navigation }) => {
 
   const handleInputsHandler = async () => {
     if (postId != "" && name != "" && email != "" && body != "") {
-      setLoading(true);
-      await axios
-        .put(`/comments/${JSON.stringify(id)}`, {
+      try {
+        setLoading(true);
+        await axios.put(`/comments/${JSON.stringify(id)}`, {
           postId: postId,
           name: name,
           email: email,
           body: body,
-        })
-        .then(function (response) {
-          setLoading(false);
-          Alert.alert(
-            "Comment Update",
-            ` Comment With Id ${id} Updated SuccessFully`
-          );
-          cleanInputs();
-          navigation.navigate("Comments");
-        })
-        .catch(function (error) {
-          alert("Sommething is Wrong");
-          console.log(error);
         });
+
+        setLoading(false);
+        Alert.alert(
+          "Comment Update",
+          ` Comment With Id ${id} Updated SuccessFully`
+        );
+        cleanInputs();
+        navigation.navigate("Comments");
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
     } else {
-      alert("There Are Some Missing Value");
+      Alert.alert("Check Your Inputs", "There Are Some Missing Value");
     }
   };
 
@@ -81,8 +79,7 @@ const UpdateCommentScreen = ({ route, navigation }) => {
     setName("");
   };
 
-  if (loading)
-    return <LoadingScreen text={"Loading... Please wait"} />;
+  if (loading) return <LoadingScreen text={"Loading... Please wait"} />;
   return (
     <View style={styles.screen}>
       <ScrollView>
