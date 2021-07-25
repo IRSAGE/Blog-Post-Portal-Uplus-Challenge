@@ -61,8 +61,8 @@ const UpdateCommentScreen = ({ route, navigation }) => {
           "Comment Update",
           ` Comment With Id ${id} Updated SuccessFully`
         );
-        cleanInputs();
         navigation.navigate("Comments");
+        cleanInputs();
       } catch (error) {
         Alert.alert("Something went Wrong", error.message);
         console.log(error);

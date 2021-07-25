@@ -11,12 +11,13 @@ import {
   Alert,
 } from "react-native";
 import { Button, Avatar } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
 
 const UpdatePostScreen = ({ route, navigation }) => {
   const { id } = route.params;
-
+  const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -35,6 +36,19 @@ const UpdatePostScreen = ({ route, navigation }) => {
       }
     };
     getPost();
+
+    const getUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get("/users");
+        setUsers(response.data);
+        setLoading(false);
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
+    };
+    getUsers();
   }, [id]);
 
   const settingInputs = (response) => {
@@ -54,8 +68,8 @@ const UpdatePostScreen = ({ route, navigation }) => {
         });
         setLoading(false);
         Alert.alert("Post Update", ` Post With Id ${id} Updated SuccessFully`);
-        cleanInputs();
         navigation.navigate("Posts");
+        cleanInputs();
       } catch (error) {
         Alert.alert("Something went Wrong", error.message);
         console.log(error);
@@ -81,14 +95,19 @@ const UpdatePostScreen = ({ route, navigation }) => {
           <Text style={styles.headerText}>Update Post</Text>
         </View>
         <View style={styles.TextContainer}>
-          <TextInputComp
-            label="UserId"
-            maxLength={3}
+          <Picker
+            selectedValue={userId}
+            style={{ height: 50, width: 300, flex: 1 }}
             value={userId}
-            keyboardType="number-pad"
-            onChangeText={(text) => setUserId(text.replace(/[^0-9]/g, ""))}
-            placeholder="Enter UserId"
-          />
+            onValueChange={(itemValue, itemIndex) => {
+              if (itemValue != "0") setUserId(itemValue);
+            }}
+          >
+            <Picker.Item label="Select A User..." value="0" />
+            {users.map(({ name, id }) => {
+              return <Picker.Item value={id} label={name} key={id} />;
+            })}
+          </Picker>
           <TextInputComp
             label="Title"
             placeholder="Enter Post's Title"

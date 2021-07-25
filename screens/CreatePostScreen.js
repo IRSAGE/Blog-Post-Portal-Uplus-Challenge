@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import axios from "../axios";
 
 import {
@@ -10,6 +9,7 @@ import {
   Keyboard,
   Alert,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { Button, Avatar } from "react-native-paper";
 import TextInputComp from "../components/TextInputComp";
 import LoadingScreen from "./LoadingScreen";
@@ -18,7 +18,23 @@ const CreatePostScreen = ({ navigation }) => {
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get("/users");
+        setUsers(response.data);
+        setLoading(false);
+      } catch (error) {
+        Alert.alert("Something went Wrong", error.message);
+        console.log(error);
+      }
+    };
+    getUsers();
+  }, []);
 
   const handleInputsHandler = async () => {
     if (userId != "" && title != "" && body != "") {
@@ -30,7 +46,7 @@ const CreatePostScreen = ({ navigation }) => {
           body: body,
         });
         setLoading(false);
-         Alert.alert("Post Creation", "Post Created Successfull");
+        Alert.alert("Post Creation", "Post Created Successfull");
         cleanInputs();
         navigation.goBack();
       } catch (error) {
@@ -48,8 +64,7 @@ const CreatePostScreen = ({ navigation }) => {
     setBody("");
   };
 
-  if (loading)
-    return <LoadingScreen text={"Creating New Post ... Please wait"} />;
+  if (loading) return <LoadingScreen text={"Loading... Please wait"} />;
 
   return (
     <View style={styles.screen}>
@@ -59,14 +74,18 @@ const CreatePostScreen = ({ navigation }) => {
           <Text style={styles.headerText}>Create A New Post</Text>
         </View>
         <View style={styles.TextContainer}>
-          <TextInputComp
-            label="UserId"
-            maxLength={3}
-            value={userId}
-            keyboardType="number-pad"
-            onChangeText={(text) => setUserId(text.replace(/[^0-9]/g, ""))}
-            placeholder="Enter UserId"
-          />
+          <Picker
+            selectedValue={userId}
+            style={{ height: 50, width: 300, flex: 1 }}
+            onValueChange={(itemValue, itemIndex) => {
+              if (itemValue != "0") setUserId(itemValue);
+            }}
+          >
+            <Picker.Item label="Select A User..." value="0" />
+            {users.map(({ name, id }) => {
+              return <Picker.Item value={id} label={name} key={id} />;
+            })}
+          </Picker>
           <TextInputComp
             label="Title"
             placeholder="Enter Post's Title"
@@ -122,6 +141,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignContent: "flex-start",
     textAlignVertical: "top",
+  },
+  Text: {
+    width: "80%",
+    height: 35,
+    marginVertical: 5,
   },
 });
 

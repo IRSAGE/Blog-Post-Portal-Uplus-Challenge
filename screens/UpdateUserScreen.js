@@ -83,8 +83,8 @@ const UpdateUserScreen = ({ navigation, route }) => {
 
         setLoading(false);
         Alert.alert("User Update", ` User With Id ${id} Updated SuccessFully`);
-        cleanInputs();
         navigation.navigate("Users");
+        cleanInputs();
       } catch (error) {
         Alert.alert("Something went Wrong", "Please Check Your Internet");
         console.log(error);
