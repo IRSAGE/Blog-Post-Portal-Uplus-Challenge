@@ -29,9 +29,9 @@ const UpdateCommentScreen = ({ route, navigation }) => {
        axios
          .get(`/comments/${JSON.stringify(id)}`)
          .then((response) => {
-           setComment(response.data);
-           settingInputs();
+           settingInputs(response);
            setLoading(false);
+           
          })
          .catch(function (error) {
            Alert.alert("Something went Wrong", "Please Check Your Internet");
@@ -40,12 +40,11 @@ const UpdateCommentScreen = ({ route, navigation }) => {
      }, [id]);
     
     
-  const settingInputs = () => {
-    console.log(comment);
-    setPostId(comment.postId.toString());
-    setName(comment.name);
-    setEmail(comment.email);
-    setBody(comment.body);
+  const settingInputs = (response) => {
+    setPostId(response.data.postId.toString());
+    setName(response.data.name);
+    setEmail(response.data.email);
+    setBody(response.data.body);
   };
 
   const handleInputsHandler = async () => {

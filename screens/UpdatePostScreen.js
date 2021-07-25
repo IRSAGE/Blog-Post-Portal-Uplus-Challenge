@@ -16,8 +16,7 @@ import LoadingScreen from "./LoadingScreen";
 
 const UpdatePostScreen = ({ route, navigation }) => {
   const { id } = route.params;
-  const [post, setPost] = useState({});
-
+ 
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -28,21 +27,21 @@ const UpdatePostScreen = ({ route, navigation }) => {
     axios
       .get(`/posts/${JSON.stringify(id)}`)
       .then((response) => {
-        setPost(response.data);
-        settingInputs();
+        // setPost(response.data);
+        settingInputs(response);
         setLoading(false);
       })
       .catch(function (error) {
-        Alert.alert("Something went Wrong", "Please Check Your Internet");
+        Alert.alert("Something went Wrong", error.message);
         console.log(error);
       });
   }, [id]);
 
-  const settingInputs = () => {
-    console.log(post);
-    setUserId(post.userId);
-    setTitle(post.title);
-    setBody(post.body);
+  const settingInputs = (response) => {
+    setUserId(response.data.userId.toString());
+    console.log(response.data.userId.toString());
+    setTitle(response.data.title);
+    setBody(response.data.body);
   };
 
   const handleInputsHandler = async () => {

@@ -33,25 +33,24 @@ const UpdateUserScreen = ({ navigation, route }) => {
     axios
       .get(`/users/${JSON.stringify(id)}`)
       .then((response) => {
-        setUser(response.data);
-        settingInputs();
+        settingInputs(response);
         setLoading(false);
       })
       .catch(function (error) {
-        Alert.alert("Something went Wrong", "Please Check Your Internet");
+        Alert.alert("Something went Wrong", error.message);
         console.log(error);
       });
   }, []);
 
-  const settingInputs = () => {
-    setName(user.name);
-    setUserName(user.username);
-    setStreet(user.address.street);
-    setSuit(user.address.suite);
-    setCity(user.address.city);
-    setZipCode(user.address.zipcode);
-    setLat(user.address.geo.lat);
-    setLng(user.address.geo.lng);
+  const settingInputs = (response) => {
+    setName(response.data.name);
+    setUserName(response.data.username);
+    setStreet(response.data.address.street);
+    setSuit(response.data.address.suite);
+    setCity(response.data.address.city);
+    setZipCode(response.data.address.zipcode);
+    setLat(response.data.address.geo.lat);
+    setLng(response.data.address.geo.lng);
   };
 
   const handleInputsHandler = async () => {
@@ -107,8 +106,7 @@ const UpdateUserScreen = ({ navigation, route }) => {
     setCity("");
     setZipCode("");
     setLat("");
-      setLng("");
-      
+    setLng("");
   };
 
   if (loading) return <LoadingScreen text={"Loading... Please wait"} />;
